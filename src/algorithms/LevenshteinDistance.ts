@@ -23,10 +23,20 @@ CHAR_GROUPS.forEach((group, idx) => {
 
 // Get substitution cost for Modified Levenshtein Distance
 function getSubstitutionCost(c1: string, c2: string): number {
+    // Nếu hai ký tự giống nhau hoàn toàn
     if (c1 === c2) return 0;
-    const group1 = CHAR_TO_GROUP[c1] ?? -1;
-    const group2 = CHAR_TO_GROUP[c2] ?? -1;
-    return (group1 !== -1 && group1 === group2) ? 0.4 : 1;
+
+    // Lấy nhóm của từng ký tự
+    const group1 = CHAR_TO_GROUP[c1.toLowerCase()];
+    const group2 = CHAR_TO_GROUP[c2.toLowerCase()];
+
+    // Nếu cả hai ký tự đều thuộc cùng một nhóm
+    if (group1 !== undefined && group2 !== undefined && group1 === group2) {
+        return 0.4;
+    }
+
+    // Nếu không thuộc trường hợp nào trên
+    return 1;
 }
 
 // Modified Levenshtein Distance
